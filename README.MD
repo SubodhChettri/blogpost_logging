@@ -49,7 +49,7 @@ LogLevel \propto  \frac{1}{ApplicationStability}
 $$<br/>
 
 ### Sample non production log entries
-The verbosity of non prodcution / development environment is kept at the highest level to 
+The verbosity of non production / development environment is kept at the highest level to 
 trace all the errors.
 ```log
 2021-07-31 17:43:41,603 - INFO      - log_example.py - main - Call # 3
