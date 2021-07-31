@@ -4,21 +4,40 @@
 import logging
 import sys
 
+
 from logger import *
 
 
 # %%
 
+
 fh = logging.FileHandler(filename=f"{__file__}.log")
 ch = logging.StreamHandler(sys.stdout)
-logs = get_logger(handlers=[fh, ch])
+handlers = [
+    fh,
+    # ch
+]
+logs = get_logger(handlers=handlers)
 
 
-@log_decorator(handlers=[fh, ch])
-def sum(a=1, b=2):
-    logs.debug("test")
-    return a + b
+@log_decorator(handlers=handlers)
+def sum(first_number=1, second_number=2):
+    logs.info(f"Adding 2 numbers {first_number} and {second_number}")
+    return first_number + second_number
 
 
-sum(5, 6)
+def main():
+    tuples = [(5, 6), ('a', 'b'), (6, 'c'), ('d', 10)]
+    counter = 1
+    for a, b in tuples:
+        try:
+            logs.info(f"Call # {counter}")
+            sum(a, b)
+            counter += 1
+        except Exception:
+            logs.error('check input data type')
+
+
 # %%
+if __name__ == "__main__":
+    main()

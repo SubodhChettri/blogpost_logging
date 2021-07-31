@@ -1,8 +1,16 @@
 import logging
 import os
 import sys
+from enum import IntEnum
 
 HANDLERS = [logging.StreamHandler(sys.stdout)]
+LOGGING_LEVEL = os.getenv("LOGGING_LEVEL", logging.DEBUG)
+
+
+class EnvType(IntEnum):
+    PROD = 1
+    NONPROD = 0
+    DEV = -1
 
 
 class CustomFormatter(logging.Formatter):
@@ -22,9 +30,8 @@ class CustomFormatter(logging.Formatter):
 def get_logger(handlers=HANDLERS):
     """Creates a Log File and returns Logger object"""
 
-    LOGGIN_LEVEL = os.getenv("LOGGING_LEVEL", logging.DEBUG)
     formatter = CustomFormatter(
-        '%(asctime)s - %(levelname)-10s -'
+        '%(asctime)s - %(levelname)-9s -'
         ' %(filename)s - %(funcName)s - %(message)s'
     )
 
@@ -32,7 +39,7 @@ def get_logger(handlers=HANDLERS):
         handler.setFormatter(formatter)
 
     logging.basicConfig(
-        level=LOGGIN_LEVEL,
+        level=LOGGING_LEVEL,
         handlers=handlers,
     )
 
