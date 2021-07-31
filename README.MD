@@ -49,7 +49,7 @@ LogLevel \propto  \frac{1}{ApplicationStability}
 $$<br/>
 
 ### Sample non production log entries
-The verbosity of non prodcution / dev environment needs to be highest level to 
+The verbosity of non prodcution / development environment is kept at the highest level to 
 trace all the errors.
 ```log
 2021-07-31 17:43:41,603 - INFO      - log_example.py - main - Call # 3
@@ -79,7 +79,10 @@ TypeError: can only concatenate str (not "int") to str
 ```
 
 ### Sample production log entries
-Note that I have disable the stack trace in my production logs
+Note that I have disable the stack trace in my production logs. This is to avoid 
+any underirable data leak through logs [CWE-209](https://cwe.mitre.org/data/definitions/209.html).
+This will be a topic for my upcoming article with more details.
+
 ```log
 2021-07-31 18:21:23,134 - INFO      - log_example.py - main - Call # 1
 2021-07-31 18:21:23,134 - INFO      - log_example.py - sum - Arguments: 5, 6 - Begin function
@@ -101,65 +104,29 @@ Note that I have disable the stack trace in my production logs
 2021-07-31 18:21:23,134 - ERROR     - log_example.py - main - check input data type
 ```
 ## Logging made easy
-Taking reference of an [exisiting solution](#ref2) I have cherry picked 
+With reference of an [exisiting solution](#ref2) I have cherry picked and 
+recreated the decorator. Any function of yours can
+have a basic logging by using the [log_decorator](logger/decorater.py)
 
+### Code snippet to decorate your function with logging features
 ```python
-import logging
-import sys
-
-# import custom log decorator
-from logger import *
-fh = logging.FileHandler(filename=f"{__file__}.log")
-ch = logging.StreamHandler(sys.stdout)
-handlers = [
-    fh,
-    # ch
-]
-logs = get_logger(handlers=handlers)
-
+....
 @log_decorator(handlers=handlers)
 def sum(first_number=1, second_number=2):
-    logs.info(f"Adding 2 numbers {first_number} and {second_number}")
-    return first_number + second_number
+    total = first_number + second_number
+    return total
+....
 ```
-```python
-import logging
-import sys
-
-# import custom log decorator
-from logger import *
-
-# Create all the Handlers for your logs either or to save in files or
-# output to the console
-fh = logging.FileHandler(filename=f"{__file__}.log")
-ch = logging.StreamHandler(sys.stdout)
-handlers = [
-    fh,
-    # ch
-]
-logs = get_logger(handlers=handlers)
-
-
-@log_decorator(handlers=handlers)
-def sum(first_number=1, second_number=2):
-    logs.info(f"Adding 2 numbers {first_number} and {second_number}")
-    return first_number + second_number
-
-# main method
-def main():
-    tuples = [(5, 6), ('a', 'b'), (6, 'c'), ('d', 10)]
-    counter = 1
-    for a, b in tuples:
-        try:
-            logs.info(f"Call # {counter}")
-            sum(a, b)
-            counter += 1
-        except Exception:
-            logs.error('check input data type')
-```
+Complete sample solution is located at [sample_log.py](log_example.py)
 
 
 ## Conclusion
+Key take way:
+* Always log, both successful and unsuccessful events.
+* Log enough so you can recreate the timeline of events to trace errors.
+* Avoid logging stack traces in production.
+* If your application is unstable increase verbosity.
+* Use standard logging format so your log analytics tool can use it.
 
 ## Reference
 1. <a name="ref1">NIST SP800-92</a> https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-92.pdf
