@@ -48,14 +48,16 @@ $$
 LogLevel \propto  \frac{1}{ApplicationStability}
 $$<br/>
 
-### sample non production log entries
+### Sample non production log entries
+The verbosity of non prodcution / dev environment needs to be highest level to 
+trace all the errors.
 ```log
 2021-07-31 17:43:41,603 - INFO      - log_example.py - main - Call # 3
 2021-07-31 17:43:41,603 - INFO      - log_example.py - sum - Arguments: 6, 'c' - Begin function
 2021-07-31 17:43:41,603 - INFO      - log_example.py - sum - Adding 2 numbers 6 and c
 2021-07-31 17:43:41,603 - ERROR     - log_example.py - sum - Exception: unsupported operand type(s) for +: 'int' and 'str'
 2021-07-31 17:43:41,603 - ERROR     - log_example.py - sum - Traceback (most recent call last):
-  File "/home/subodhchettri/repo/blogpost_logging/logger/decorater.py", line 35, in log_decorator_wrapper
+  File "/home/žžžžžžžžžžžžž/repo/blogpost_logging/logger/decorater.py", line 35, in log_decorator_wrapper
     value = func(*args, **kwargs)
   File "log_example.py", line 26, in sum
     return first_number + second_number
@@ -67,7 +69,7 @@ TypeError: unsupported operand type(s) for +: 'int' and 'str'
 2021-07-31 17:43:41,603 - INFO      - log_example.py - sum - Adding 2 numbers d and 10
 2021-07-31 17:43:41,603 - ERROR     - log_example.py - sum - Exception: can only concatenate str (not "int") to str
 2021-07-31 17:43:41,603 - ERROR     - log_example.py - sum - Traceback (most recent call last):
-  File "/home/subodhchettri/repo/blogpost_logging/logger/decorater.py", line 35, in log_decorator_wrapper
+  File "/home/žžžžžžžžžžžžž/repo/blogpost_logging/logger/decorater.py", line 35, in log_decorator_wrapper
     value = func(*args, **kwargs)
   File "log_example.py", line 26, in sum
     return first_number + second_number
@@ -76,7 +78,8 @@ TypeError: can only concatenate str (not "int") to str
 2021-07-31 17:43:41,603 - ERROR     - log_example.py - main - check input data type
 ```
 
-### sample production log enteries
+### Sample production log entries
+Note that I have disable the stack trace in my production logs
 ```log
 2021-07-31 18:21:23,134 - INFO      - log_example.py - main - Call # 1
 2021-07-31 18:21:23,134 - INFO      - log_example.py - sum - Arguments: 5, 6 - Begin function
@@ -98,11 +101,67 @@ TypeError: can only concatenate str (not "int") to str
 2021-07-31 18:21:23,134 - ERROR     - log_example.py - main - check input data type
 ```
 ## Logging made easy
+Taking reference of an [exisiting solution](#ref2) I have cherry picked 
+
+```python
+import logging
+import sys
+
+# import custom log decorator
+from logger import *
+fh = logging.FileHandler(filename=f"{__file__}.log")
+ch = logging.StreamHandler(sys.stdout)
+handlers = [
+    fh,
+    # ch
+]
+logs = get_logger(handlers=handlers)
+
+@log_decorator(handlers=handlers)
+def sum(first_number=1, second_number=2):
+    logs.info(f"Adding 2 numbers {first_number} and {second_number}")
+    return first_number + second_number
+```
+```python
+import logging
+import sys
+
+# import custom log decorator
+from logger import *
+
+# Create all the Handlers for your logs either or to save in files or
+# output to the console
+fh = logging.FileHandler(filename=f"{__file__}.log")
+ch = logging.StreamHandler(sys.stdout)
+handlers = [
+    fh,
+    # ch
+]
+logs = get_logger(handlers=handlers)
+
+
+@log_decorator(handlers=handlers)
+def sum(first_number=1, second_number=2):
+    logs.info(f"Adding 2 numbers {first_number} and {second_number}")
+    return first_number + second_number
+
+# main method
+def main():
+    tuples = [(5, 6), ('a', 'b'), (6, 'c'), ('d', 10)]
+    counter = 1
+    for a, b in tuples:
+        try:
+            logs.info(f"Call # {counter}")
+            sum(a, b)
+            counter += 1
+        except Exception:
+            logs.error('check input data type')
+```
 
 
 ## Conclusion
 
 ## Reference
-1. <a name="ref1"> https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-92.pdf</a>
+1. <a name="ref1">NIST SP800-92</a> https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-92.pdf
 https://csrc.nist.gov/publications/detail/sp/800-92/final
-2. https://github.com/hima03/log-decorator
+2. <a name="ref2">Referenced log-decorator</a> https://github.com/hima03/log-decorator
