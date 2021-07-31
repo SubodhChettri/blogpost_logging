@@ -38,6 +38,8 @@ The application log verbosity should be configurable.
 As a rule of thumb, the verboseness 
 of an application log should be inversely proportional to the application 
 stability. <br/>
+
+![LogLeveRuleOfThumb](/images/loglevel.png)
 $$
 LogLevel \propto  \frac{1}{ApplicationStability}
 $$
