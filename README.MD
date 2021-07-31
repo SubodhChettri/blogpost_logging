@@ -46,13 +46,10 @@ stability. <br/>
 <br/>
 $$
 LogLevel \propto  \frac{1}{ApplicationStability}
-$$
-### non production log entries
-```{log, class.output="scroll-100"}
-2021-07-31 17:43:41,602 - INFO      - log_example.py - main - Call # 2
-2021-07-31 17:43:41,602 - INFO      - log_example.py - sum - Arguments: 'a', 'b' - Begin function
-2021-07-31 17:43:41,603 - INFO      - log_example.py - sum - Adding 2 numbers a and b
-2021-07-31 17:43:41,603 - INFO      - log_example.py - sum - Returned: - End function 'ab'
+$$<br/>
+
+### sample non production log entries
+```log
 2021-07-31 17:43:41,603 - INFO      - log_example.py - main - Call # 3
 2021-07-31 17:43:41,603 - INFO      - log_example.py - sum - Arguments: 6, 'c' - Begin function
 2021-07-31 17:43:41,603 - INFO      - log_example.py - sum - Adding 2 numbers 6 and c
@@ -79,8 +76,27 @@ TypeError: can only concatenate str (not "int") to str
 2021-07-31 17:43:41,603 - ERROR     - log_example.py - main - check input data type
 ```
 
-### production log enteries
-
+### sample production log enteries
+```log
+2021-07-31 18:21:23,134 - INFO      - log_example.py - main - Call # 1
+2021-07-31 18:21:23,134 - INFO      - log_example.py - sum - Arguments: 5, 6 - Begin function
+2021-07-31 18:21:23,134 - INFO      - log_example.py - sum - Adding 2 numbers 5 and 6
+2021-07-31 18:21:23,134 - INFO      - log_example.py - sum - Returned: - End function 11
+2021-07-31 18:21:23,134 - INFO      - log_example.py - main - Call # 2
+2021-07-31 18:21:23,134 - INFO      - log_example.py - sum - Arguments: 'a', 'b' - Begin function
+2021-07-31 18:21:23,134 - INFO      - log_example.py - sum - Adding 2 numbers a and b
+2021-07-31 18:21:23,134 - INFO      - log_example.py - sum - Returned: - End function 'ab'
+2021-07-31 18:21:23,134 - INFO      - log_example.py - main - Call # 3
+2021-07-31 18:21:23,134 - INFO      - log_example.py - sum - Arguments: 6, 'c' - Begin function
+2021-07-31 18:21:23,134 - INFO      - log_example.py - sum - Adding 2 numbers 6 and c
+2021-07-31 18:21:23,134 - ERROR     - log_example.py - sum - Exception: unsupported operand type(s) for +: 'int' and 'str'
+2021-07-31 18:21:23,134 - ERROR     - log_example.py - main - check input data type
+2021-07-31 18:21:23,134 - INFO      - log_example.py - main - Call # 3
+2021-07-31 18:21:23,134 - INFO      - log_example.py - sum - Arguments: 'd', 10 - Begin function
+2021-07-31 18:21:23,134 - INFO      - log_example.py - sum - Adding 2 numbers d and 10
+2021-07-31 18:21:23,134 - ERROR     - log_example.py - sum - Exception: can only concatenate str (not "int") to str
+2021-07-31 18:21:23,134 - ERROR     - log_example.py - main - check input data type
+```
 ## Logging made easy
 
 
