@@ -38,9 +38,9 @@ The application log verbosity should be configurable.
 As a rule of thumb, the verboseness 
 of an application log should be inversely proportional to the application 
 stability. <br/>
-$
-LOG__LEVEL [\propto] \frac{1}{APPLICATION_STABILITY}
-$
+$$
+LogLevel \propto  \frac{1}{ApplicationStability}
+$$
 ### non production log entries
 ```{log, class.output="scroll-100"}
 2021-07-31 17:43:41,602 - INFO      - log_example.py - main - Call # 2
@@ -71,8 +71,6 @@ TypeError: unsupported operand type(s) for +: 'int' and 'str'
 TypeError: can only concatenate str (not "int") to str
 
 2021-07-31 17:43:41,603 - ERROR     - log_example.py - main - check input data type
-
-
 ```
 
 ### production log enteries
