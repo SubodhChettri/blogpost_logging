@@ -4,7 +4,7 @@
 > No code has _**fewer bugs**_ than **no code**. <br/>
 > No code uses less memory than **no code**. <br/>
 > No code is easier to understand than **no code**. <br/>
-> <div style="text-align: right">-Mike Perham</div>
+> <p align="right">-Mike Perham</p>
 
 ## Introduction
 Whichever hat you wear within the business, we all hope that it runs smoothly 
@@ -39,7 +39,11 @@ As a rule of thumb, the verboseness
 of an application log should be inversely proportional to the application 
 stability. <br/>
 
-![LogLeveRuleOfThumb](/images/loglevel.png)
+<p align="center">
+  <img src="/images/loglevel.png">
+</p>
+
+<br/>
 $$
 LogLevel \propto  \frac{1}{ApplicationStability}
 $$
