@@ -132,3 +132,6 @@ Key take way:
 1. <a name="ref1">NIST SP800-92</a> https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-92.pdf
 https://csrc.nist.gov/publications/detail/sp/800-92/final
 2. <a name="ref2">Referenced log-decorator</a> https://github.com/hima03/log-decorator
+
+
+licensed under [CC BY 4.0.](http://creativecommons.org/licenses/by/4.0/)
