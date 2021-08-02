@@ -5,7 +5,7 @@ import logging
 import sys
 
 
-from logger import *
+from logger import get_logger, log_decorator
 
 
 # %%
