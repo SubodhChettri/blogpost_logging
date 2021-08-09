@@ -6,9 +6,11 @@ import traceback
 from .custom_log import get_logger, EnvType
 
 ENVTYPE = EnvType[os.getenv("ENV_TYPE", "NONPROD")]
+LINEFEED = "\\n"
+CARRIAGERETURN = "\\r"
 
 
-def log_decorator(handlers, _func=None):
+def log_decorator(handlers, _func=None, lf=LINEFEED, cr=CARRIAGERETURN):
     def log_decorator_info(func):
         @functools.wraps(func)
         def log_decorator_wrapper(*args, **kwargs):
@@ -38,12 +40,19 @@ def log_decorator(handlers, _func=None):
                     extra=extra_args,
                 )
             except:
+                trace_msg = (
+                    str(sys.exc_info()[1]).replace('\n', lf).replace('\r', cr)
+                )
                 logs.error(
-                    f"Exception: {str(sys.exc_info()[1])}",
+                    f"Exception: {trace_msg}",
                     extra=extra_args,
                 )
                 if ENVTYPE < int(EnvType.PROD):
-                    err = traceback.format_exc()
+                    err = (
+                        traceback.format_exc()
+                        .replace('\n', lf)
+                        .replace('\r', cr)
+                    )
                     logs.error(err, extra=extra_args)
                 raise
             # Return function value
